@@ -10,5 +10,5 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2.4.2
     - shell: bash
-      run: docker build -t pythonapp:latest
+      run: docker build -t pythonapp:latest .
   
