@@ -9,6 +9,19 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2.4.2
-    - shell: bash
+    - name: build container image
+      shell: bash
       run: docker build -t pythonapp:latest .
+    - name: Install Trivy
+      shell: bash
+      run: 
+          sudo apt-get install wget apt-transport-https gnupg lsb-release
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install trivy
+    - name: Scan Image
+      shell: bash
+      run: trivy image pythonapp:latest
+
   
